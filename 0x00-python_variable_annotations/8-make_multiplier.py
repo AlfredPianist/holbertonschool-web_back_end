@@ -1,16 +1,13 @@
 #!/usr/bin/env python3
-"""To kv"""
-from typing import Union, Tuple
-from functools import reduce
+"""Multiplier function returning Callable"""
+from typing import Callable
 
 
-def to_kv(k: str, v: Union[int, float]) -> Tuple[str, float]:
-    """Returns a float with its second element squared.
+def make_multiplier(multiplier: float) -> Callable[[float], float]:
+    """Returns a function that multiplies a float by multiplier.
        Args:
-            k (str): A string
-            v (int, float): A number
+            multiplier: The multiplier.
        Returns:
-           (:obj:`tuple` of `str, float`): The float with the string and the
-            float doubled.
+            The function which multiplies multiplier to a float.
     """
-    return (k, v ** 2)
+    return lambda y: multiplier * y

@@ -5,7 +5,7 @@ from functools import reduce
 
 
 def to_kv(k: str, v: Union[int, float]) -> Tuple[str, float]:
-    """Returns a float with its second element squared.
+    """Returns a tuple with a string and its second element squared.
        Args:
             k (str): A string
             v (int, float): A number
