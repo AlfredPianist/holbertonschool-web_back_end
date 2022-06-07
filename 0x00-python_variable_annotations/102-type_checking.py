@@ -4,12 +4,12 @@ from typing import List, Tuple, Any, cast
 
 
 def zoom_array(lst: Tuple, factor: int = 2) -> List:
-    """Returns a value of a mapping object.
+    """Returns another array depending on value.
     Args:
-        lst: A list.
+        lst: An array.
         factor: A number.
     Returns:
-        The value.
+        The zoomed array.
     """
     zoomed_in: List = [
         item for item in lst
