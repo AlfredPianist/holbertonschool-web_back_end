@@ -15,4 +15,4 @@ async def task_wait_n(n: int, max_delay: int) -> List[float]:
             The list of sorted random values.
     """
     tasks = [task_wait_random(max_delay) for _ in range(n)]
-    return sorted([await task for task in asyncio.as_completed(tasks)])
+    return [await task for task in asyncio.as_completed(tasks)]
