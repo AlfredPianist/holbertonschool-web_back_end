@@ -18,23 +18,15 @@ class LIFOCache(BaseCaching):
             value (`str`): The value of the key-value pair to include in the
                 cache.
         """
-        print(self.cache_data, self.cache_keys)
         if key is None or item is None:
             return
 
-        if key in self.cache_keys:
-            key_index = self.cache_keys.index(key)
-            self.cache_keys.pop(key_index)
-            self.cache_keys.append(key)
-
-        if len(self.cache_data) >= BaseCaching.MAX_ITEMS \
-                and key not in self.cache_keys:
+        if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
             item_out = self.cache_keys.pop()
             print("DISCARD: {}".format(item_out))
             del self.cache_data[item_out]
 
-        if key not in self.cache_keys:
-            self.cache_keys.append(key)
+        self.cache_keys.append(key)
         self.cache_data[key] = item
 
     def get(self, key):
