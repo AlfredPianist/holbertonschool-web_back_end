@@ -55,8 +55,8 @@ class Server:
     def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict[str, Any]:
         """Gets a dictionary with some pagination information.
         Args:
-            page: The first string.
-            page_size: The second string.
+            page: The current page.
+            page_size: The page size.
         Returns:
             The dictionary with the pagination information.
         """
