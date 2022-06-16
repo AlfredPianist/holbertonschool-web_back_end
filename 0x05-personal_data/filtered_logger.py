@@ -75,3 +75,24 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         password=os.getenv("PERSONAL_DATA_DB_PASSWORD", ""),
         host=os.getenv("PERSONAL_DATA_DB_HOST", "localhost"),
         database=os.getenv("PERSONAL_DATA_DB_NAME"))
+
+
+def main():
+    """Main entrypoint"""
+    database = get_db()
+    cursor = database.cursor()
+    cursor.execute("SELECT * FROM users;")
+    column_names = [column[0] for column in cursor.description]
+    log = get_logger()
+
+    for record in cursor:
+        message = ''.join(f'{column}={value}{RedactingFormatter.SEPARATOR} '
+                          for column, value in zip(column_names, record))
+        log.info(message)
+
+    cursor.close()
+    database.close()
+
+
+if __name__ == "__main__":
+    main()
