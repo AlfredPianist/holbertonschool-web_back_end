@@ -8,7 +8,8 @@ class BasicAuth(Auth):
     """ Basic Auth class
     """
 
-    def extract_base64_authorization_header(self, authorization_header: str) -> str:
+    def extract_base64_authorization_header(self,
+                                            authorization_header: str) -> str:
         """ Returns base64 part of authorization header
         """
         if authorization_header is None or \
