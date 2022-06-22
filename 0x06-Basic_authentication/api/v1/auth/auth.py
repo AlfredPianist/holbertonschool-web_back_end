@@ -2,15 +2,7 @@
 """ Auth module
 """
 from flask import request
-from datetime import datetime
-from typing import TypeVar, List, Iterable
-from os import path
-import json
-import uuid
-
-
-TIMESTAMP_FORMAT = "%Y-%m-%dT%H:%M:%S"
-DATA = {}
+from typing import TypeVar, List
 
 
 class Auth():
