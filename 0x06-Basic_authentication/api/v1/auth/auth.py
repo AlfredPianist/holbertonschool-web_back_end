@@ -28,7 +28,7 @@ class Auth():
             if excluded_path[:-1] == path:
                 return False
             if excluded_path.endswith("*"):
-                if path in excluded_path:
+                if path.startswith(excluded_path[:-1]):
                     return False
         return True
 
