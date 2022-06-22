@@ -27,8 +27,8 @@ class Auth():
         for excluded_path in excluded_paths:
             if excluded_path[:-1] == path:
                 return False
-            if path.endswith("*"):
-                if excluded_path in path:
+            if excluded_path.endswith("*"):
+                if path in excluded_path:
                     return False
         return True
 
