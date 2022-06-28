@@ -3,12 +3,11 @@
 """
 from api.v1.auth.session_exp_auth import SessionExpAuth
 from models.user_session import UserSession
-from os import getenv
 from datetime import datetime, timedelta
 
 
 class SessionDBAuth(SessionExpAuth):
-    """ Session Expired Auth class
+    """ Session DB Auth class
     """
 
     def create_session(self, user_id=None):
@@ -20,7 +19,6 @@ class SessionDBAuth(SessionExpAuth):
         user_session = UserSession({"user_id": user_id,
                                     "session_id": session_id})
         user_session.save()
-        UserSession.save_to_file()
         return session_id
 
     def user_id_for_session_id(self, session_id=None):
@@ -29,15 +27,13 @@ class SessionDBAuth(SessionExpAuth):
         if session_id is None:
             return None
         try:
-            user_session = UserSession.search({"session_id": session_id})
+            user_session = UserSession.search({'session_id': session_id})
         except Exception:
             user_session = []
         if len(user_session) == 0:
             return None
         if self.session_duration <= 0:
             return user_session[0].user_id
-        if 'created_at' not in user_session[0].keys():
-            return None
         session_delta = user_session[0].get('created_at') + \
             timedelta(seconds=self.session_duration)
         if session_delta < datetime.now():
@@ -48,8 +44,7 @@ class SessionDBAuth(SessionExpAuth):
         """Deletes a User instance (logout)
         """
         if request is None:
-            return False
-
+            return None
         session_id = self.session_cookie(request)
         if session_id is None:
             return None
