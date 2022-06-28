@@ -31,11 +31,12 @@ class SessionDBAuth(SessionExpAuth):
         user_session = UserSession.search({'session_id': session_id})
         if not user_session:
             return None
-        session_delta = user_session[0].get('created_at') + \
+        user_session = user_session[0]
+        session_delta = user_session.created_at + \
             timedelta(seconds=self.session_duration)
         if session_delta < datetime.now():
             return None
-        return user_session[0].get(user_id)
+        return user_session.user_id
 
     def destroy_session(self, request=None):
         """Deletes a User instance (logout)
@@ -51,8 +52,9 @@ class SessionDBAuth(SessionExpAuth):
         user_session = UserSession.search({'session_id': session_id})
         if not user_session:
             return False
+        user_session = user_session[0]
         try:
-            user_session[0].remove()
+            user_session.remove()
             UserSession.save_to_file()
         except Exception:
             return False
