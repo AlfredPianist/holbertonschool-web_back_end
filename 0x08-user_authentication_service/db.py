@@ -24,10 +24,8 @@ class DB:
     @staticmethod
     def has_keys(kwarg_dict, column_set):
         """Checks if a kwarg dict has all properties from a determined list"""
-        if all([True if key in column_set else False
-                for key in kwargs.keys()]):
-            return True
-        return False
+        return all([True if key in column_set else False
+                    for key in kwarg_dict.keys()])
 
     def __init__(self):
         """
