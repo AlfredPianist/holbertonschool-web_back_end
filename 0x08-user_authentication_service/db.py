@@ -12,11 +12,11 @@ from user import User
 import re
 
 
-def has_keys(kwarg_dict):
+def has_keys(**kwarg_dict):
     """Checks if a kwarg dict has all properties from a determined list"""
-    USER_COLUMN_NAMES_SET = ['id', 'email',
-                             'session_id', 'reset_token', 'hashed_password']
-    return all([True if key in USER_COLUMN_NAMES_SET else False
+    column_set = ['id', 'email',
+                  'session_id', 'reset_token', 'hashed_password']
+    return all([True if key in column_set else False
                 for key in kwarg_dict.keys()])
 
 
@@ -61,7 +61,7 @@ class DB:
         """
             Return a user with specificed kwargs.
         """
-        if not has_keys(kwargs):
+        if not has_keys(**kwargs):
             raise InvalidRequestError
         user = self._session.query(User).filter_by(**kwargs).first()
         if user is None:
