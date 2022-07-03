@@ -9,6 +9,11 @@ from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.orm import sessionmaker
 from user import Base
 from user import User
+import re
+
+USER_COLUMN_NAMES_SET = set(
+    re.findall(r"(?<=users\.)\w+", str(User.__table__.columns))
+)
 
 
 class DB:
@@ -52,6 +57,8 @@ class DB:
         """
             Return a user with specificed kwargs.
         """
+        if not set(kwargs.keys()).issubset(USER_COLUMN_NAMES_SET):
+            raise InvalidRequestError
         user = self._session.query(User).filter_by(**kwargs).first()
         if not user:
             raise NoResultFound
