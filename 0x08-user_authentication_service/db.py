@@ -11,9 +11,8 @@ from user import Base
 from user import User
 import re
 
-USER_COLUMN_NAMES_SET = set(
-    re.findall(r"(?<=users\.)\w+", str(User.__table__.columns))
-)
+USER_COLUMN_NAMES_SET = {'id', 'email', 'session_id',
+                         'reset_token', 'hashed_password'}
 
 
 class DB:
