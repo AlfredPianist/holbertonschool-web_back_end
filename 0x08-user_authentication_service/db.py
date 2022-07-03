@@ -11,9 +11,8 @@ from user import Base
 from user import User
 import re
 
-USER_COLUMN_NAMES_LIST = set(
-    re.findall(r"(?<=users\.)\w+", str(User.__table__.columns))
-)
+USER_COLUMN_NAMES_SET = ['id', 'email',
+                         'session_id', 'reset_token', 'hashed_password']
 
 
 class DB:
@@ -25,8 +24,8 @@ class DB:
     @staticmethod
     def has_keys(kwarg_dict, column_set):
         """Checks if a kwarg dict has all properties from a determined list"""
-        if len(set(kwarg_dict)) != 0 \
-                and set(kwarg_dict.keys()).issubset(column_set):
+        if all([True if key in column_set else False
+                for key in kwargs.keys()]):
             return True
         return False
 
