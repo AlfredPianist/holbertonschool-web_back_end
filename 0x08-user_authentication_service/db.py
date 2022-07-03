@@ -26,7 +26,7 @@ class DB:
     def has_keys(kwarg_dict, column_set):
         """Checks if a kwarg dict has all properties from a determined list"""
         if len(set(kwarg_dict)) != 0 \
-                or set(kwarg_dict.keys()).issubset(column_set):
+                and set(kwarg_dict.keys()).issubset(column_set):
             return True
         return False
 
