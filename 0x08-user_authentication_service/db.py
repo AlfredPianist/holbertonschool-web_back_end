@@ -60,6 +60,6 @@ class DB:
         if not set(kwargs.keys()).issubset(USER_COLUMN_NAMES_SET):
             raise InvalidRequestError
         user = self._session.query(User).filter_by(**kwargs).first()
-        if not user:
+        if user is None:
             raise NoResultFound
         return user
