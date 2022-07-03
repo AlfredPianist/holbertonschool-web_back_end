@@ -11,9 +11,8 @@ from user import Base
 from user import User
 import re
 
-USER_COLUMN_NAMES_SET = set(
-    re.findall(r"(?<=users\.)\w+", str(User.__table__.columns))
-)
+USER_COLUMN_NAMES_LIST = ['id', 'email',
+                          'session_id', 'reset_token', 'hashed_password']
 
 
 class DB:
@@ -22,11 +21,12 @@ class DB:
         create model to manage the Database
     """
 
-    @staticmethod
+    @ staticmethod
     def has_keys(kwarg_dict, column_set):
-        """Checks if a kwarg dict has all properties from a determined set"""
+        """Checks if a kwarg dict has all properties from a determined list"""
         if len(column_set) != 0 \
-                or set(kwarg_dict.keys()).issubset(column_set):
+                or all([True if key in column_set else False
+                        for key in kwargs.keys()]):
             return True
         return False
 
@@ -40,7 +40,7 @@ class DB:
         Base.metadata.create_all(self._engine)
         self.__session = None
 
-    @property
+    @ property
     def _session(self):
         """
             Create if not exists a db session
