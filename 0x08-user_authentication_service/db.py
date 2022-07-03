@@ -11,8 +11,13 @@ from user import Base
 from user import User
 import re
 
-USER_COLUMN_NAMES_SET = ['id', 'email',
-                         'session_id', 'reset_token', 'hashed_password']
+
+def has_keys(kwarg_dict):
+    """Checks if a kwarg dict has all properties from a determined list"""
+    USER_COLUMN_NAMES_SET = ['id', 'email',
+                             'session_id', 'reset_token', 'hashed_password']
+    return all([True if key in USER_COLUMN_NAMES_SET else False
+                for key in kwarg_dict.keys()])
 
 
 class DB:
@@ -20,12 +25,6 @@ class DB:
         DB class
         create model to manage the Database
     """
-
-    @staticmethod
-    def has_keys(kwarg_dict, column_set):
-        """Checks if a kwarg dict has all properties from a determined list"""
-        return all([True if key in column_set else False
-                    for key in kwarg_dict.keys()])
 
     def __init__(self):
         """
@@ -62,7 +61,7 @@ class DB:
         """
             Return a user with specificed kwargs.
         """
-        if not DB.has_keys(kwargs, USER_COLUMN_NAMES_SET):
+        if not has_keys(kwargs):
             raise InvalidRequestError
         user = self._session.query(User).filter_by(**kwargs).first()
         if user is None:
