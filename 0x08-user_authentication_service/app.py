@@ -35,7 +35,7 @@ def login():
         User login
     """
     is_valid_login = AUTH.valid_login(**request.form)
-    if not (all(['email', 'password'] for key in list(request.form.keys()))
+    if not (all(len(val) > 0 for val in list(request.form.values()))
             and is_valid_login):
         abort(401)
     session_id = AUTH.create_session(request.form['email'])
