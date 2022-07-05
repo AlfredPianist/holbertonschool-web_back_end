@@ -92,9 +92,6 @@ def update_password():
     """
         Resets password
     """
-    email = request.form['email']
-    if not email:
-        abort(400)
     try:
         email = request.form['email']
         reset_token = request.form['reset_token']
