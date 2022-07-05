@@ -35,13 +35,13 @@ def login():
         User login
     """
     is_valid_login = AUTH.valid_login(**request.form)
-    if not (all(len(val) > 0 for val in list(request.form.values()))
+    if not (all(['email', 'password'] for key in list(request.form.keys()))
             and is_valid_login):
         abort(401)
     session_id = AUTH.create_session(request.form['email'])
     response = jsonify({
         'email': request.form['email'],
-        'message': 'logged_in'
+        'message': 'logged in'
     })
     response.set_cookie('session_id', session_id)
     return response
