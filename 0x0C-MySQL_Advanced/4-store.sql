@@ -1,5 +1,6 @@
 -- Creates a trigger on the `orders` table
--- After insertion, updates the `items` table with the new stock
+-- Before insertion, updates the `items` table with the new stock
+DROP TRIGGER IF EXISTS `store`;
 CREATE TRIGGER `store`
 BEFORE INSERT ON `orders`
 FOR EACH ROW
