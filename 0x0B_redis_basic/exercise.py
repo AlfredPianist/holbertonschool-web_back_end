@@ -11,13 +11,27 @@ from functools import wraps
 
 def count_calls(method: Callable) -> Callable:
     """Counts the calls to the Redis cache"""
-    key = method.__qualname__
-
     @wraps(method)
     def wrapper(self, *args, **kwargs):
         """Wrapper for decorator"""
+        key = method.__qualname__
         self._redis.incr(key)
         return method(self, *args, **kwargs)
+    return wrapper
+
+
+def call_history(method: Callable) -> Callable:
+    """Stores the history of inputs and outputs from a function"""
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        """Wrapper for decorator"""
+        input_key = method.__qualname__ + ":inputs"
+        output_key = method.__qualname__ + ":outputs"
+        input = str(args)
+        output = str(method(self, *args, **kwargs))
+        self._redis.rpush(input_key, input)
+        self._redis.rpush(output_key, output)
+        return output
     return wrapper
 
 
@@ -30,6 +44,7 @@ class Cache:
         self._redis.flushdb()
 
     @count_calls
+    @call_history
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """Store data in Redis cache"""
         id = str(uuid.uuid4())
