@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Module listing all documents"""
+"""Module inserting a document"""
 import pymongo
 
 
