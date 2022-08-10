@@ -7,14 +7,12 @@ function countStudents(path) {
     const objectArray = [];
 
     for (let lineIdx = 1; lineIdx < data.length; lineIdx++) {
+      const object = {};
       const row = data[lineIdx].split(',');
-      if (row.length >= keys.length) {
-        const object = {};
-        for (let valueIdx = 0; valueIdx < keys.length; valueIdx++) {
-          object[keys[valueIdx]] = row[valueIdx];
-        }
-        objectArray.push(object);
+      for (let valueIdx = 0; valueIdx < row.length; valueIdx++) {
+        object[keys[valueIdx]] = row[valueIdx];
       }
+      objectArray.push(object);
     }
 
     fields = {};
