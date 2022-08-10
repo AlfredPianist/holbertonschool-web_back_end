@@ -6,18 +6,18 @@ function countStudents(path) {
     const keys = data[0].split(',');
     const objectArray = [];
 
-    for (let lineIdx = 1; lineIdx < data.length; lineIdx++) {
+    for (let lineIdx = 1; lineIdx < data.length; lineIdx += 1) {
       const row = data[lineIdx].split(',');
       if (row.length >= keys.length) {
         const object = {};
-        for (let valueIdx = 0; valueIdx < keys.length; valueIdx++) {
+        for (let valueIdx = 0; valueIdx < keys.length; valueIdx += 1) {
           object[keys[valueIdx]] = row[valueIdx];
         }
         objectArray.push(object);
       }
     }
 
-    fields = {};
+    const fields = {};
     objectArray.forEach((row) => {
       if (typeof fields[row.field] === 'undefined') {
         fields[row.field] = {};
@@ -33,7 +33,7 @@ function countStudents(path) {
       console.log(
         `Number of students in ${fieldName}: ${
           fieldInfo.count
-        }. List: ${fieldInfo.studentList.join(', ')}`
+        }. List: ${fieldInfo.studentList.join(', ')}`,
       );
     }
   } catch (error) {
