@@ -1,14 +1,14 @@
 export default function updateStudentGradeByCity(
   studentArray,
   city,
-  newGrades
+  newGrades,
 ) {
   if (!Array.isArray(studentArray)) return [];
   return studentArray
     .filter((student) => student.location === city)
     .map((student) => {
       const studentNewGrade = newGrades.find(
-        (grade) => grade.studentId === student.id
+        (grade) => grade.studentId === student.id,
       );
       if (typeof studentNewGrade === 'undefined') {
         return { ...student, grade: 'N/A' };
