@@ -15,7 +15,7 @@ app.get('/students', (request, response) => {
       response.send(responseArray.join('\n'));
     })
     .catch((error) => {
-      responseArray.push(error);
+      responseArray.push(error.message);
       response.send(responseArray.join('\n'));
     });
 });
