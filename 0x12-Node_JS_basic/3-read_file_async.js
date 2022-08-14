@@ -2,40 +2,31 @@ const fs = require('fs');
 
 function countStudents(path) {
   return new Promise((resolve, reject) => {
-    fs.readFile(path, 'utf-8', (error, data) => {
-      if (error) {
+    fs.readFile(path, 'utf8', (err, data) => {
+      if (err) {
         reject(new Error('Cannot load the database'));
         return;
       }
-
-      const message = [];
-      const dataDumpArray = data.split('\n');
       const fields = {};
+      const students = data.split('\n').map((student) => student.split(','));
+      students.shift();
+      const message = [];
 
-      const studentArray = dataDumpArray
-        .filter((row) => row)
-        .map((row) => row.split(','));
-      studentArray.shift();
-
-      studentArray.forEach((student) => {
-        if (!fields[student[3]]) {
-          fields[student[3]] = [];
-        }
+      message.push(`Number of students: ${students.length}`);
+      students.forEach((student) => {
+        if (!fields[student[3]]) fields[student[3]] = [];
         fields[student[3]].push(student[0]);
       });
-
-      message.push(`Number of students: ${studentArray.length}`);
-      for (const [fieldName, fieldStudents] of Object.entries(fields)) {
+      Object.keys(fields).forEach((key) => {
         message.push(
-          `Number of students in ${fieldName}: ${
-            fieldStudents.length
-          }. List: ${fieldStudents.join(', ')}`,
+          `Number of students in ${key}: ${fields[key].length}. List: ${fields[
+            key
+          ].join(', ')}`,
         );
-      }
-
-      const response = message.join('\n');
-      console.log(response);
-      resolve(response);
+      });
+      const result = message.join('\n');
+      console.log(result);
+      resolve(result);
     });
   });
 }
