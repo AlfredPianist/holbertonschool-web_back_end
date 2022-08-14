@@ -21,9 +21,8 @@ export default class StudentsController {
 
   static getAllStudentsByMajor(request, response, DATABASE) {
     const { major } = request.params;
-    const majors = ['CS', 'SWE'];
 
-    if (!majors.includes(major)) {
+    if (major !== 'CS' && major !== 'SWE') {
       response.status(500).send('Major parameter must be CS or SWE');
     } else {
       readDatabase(DATABASE)
