@@ -16,7 +16,7 @@ const app = http.createServer((request, response) => {
     case '/students':
       response.write('This is the list of our students\n');
       countStudents(database)
-        .then((message) => response.end(message))
+        .then((message) => response.end(message.join('\n')))
         .catch((error) => response.end(error.message));
       break;
     default:
