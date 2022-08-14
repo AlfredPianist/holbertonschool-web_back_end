@@ -7,45 +7,44 @@ function countStudents(path) {
         reject(new Error('Cannot load the database'));
         return;
       }
-      const dataArray = data.split('\n');
-      const keys = dataArray[0].split(',');
-      const objectArray = [];
+
       const message = [];
-
-      for (let lineIdx = 1; lineIdx < dataArray.length; lineIdx += 1) {
-        const row = dataArray[lineIdx].split(',');
-        if (row.length >= keys.length) {
-          const object = {};
-          for (let valueIdx = 0; valueIdx < keys.length; valueIdx += 1) {
-            object[keys[valueIdx]] = row[valueIdx];
-          }
-          objectArray.push(object);
-        }
-      }
-
+      const dataDumpArray = data.split('\n');
+      const keys = dataDumpArray[0].split(',');
       const fields = {};
-      objectArray.forEach((row) => {
-        if (typeof fields[row.field] === 'undefined') {
-          fields[row.field] = {};
-          fields[row.field].count = 0;
-          fields[row.field].studentList = [];
+
+      const studentArray = dataDumpArray.map((row) => {
+        const studentRow = row.split(',');
+        const student = {};
+        for (const [keyIdx, key] of keys.entries()) {
+          student[key] = studentRow[keyIdx];
         }
-        fields[row.field].count += 1;
-        fields[row.field].studentList.push(row.firstname);
+        return student;
+      });
+      studentArray.shift();
+
+      studentArray.forEach((student) => {
+        if (typeof fields[student.field] === 'undefined') {
+          fields[student.field] = {};
+          fields[student.field].count = 0;
+          fields[student.field].studentList = [];
+        }
+        fields[student.field].count += 1;
+        fields[student.field].studentList.push(student.firstname);
       });
 
-      message.push(`Number of students: ${objectArray.length}`);
+      message.push(`Number of students: ${studentArray.length}`);
       for (const [fieldName, fieldInfo] of Object.entries(fields)) {
         message.push(
           `Number of students in ${fieldName}: ${
             fieldInfo.count
-          }. List: ${fieldInfo.studentList.join(', ')}`,
+          }. List: ${fieldInfo.studentList.join(', ')}`
         );
       }
 
       const response = message.join('\n');
       console.log(response);
-      resolve(response);
+      resolve(studentArray);
     });
   });
 }
