@@ -10,26 +10,18 @@ function countStudents(path) {
 
       const message = [];
       const dataDumpArray = data.split('\n');
-      const keys = dataDumpArray[0].split(',');
       const fields = {};
 
       const studentArray = dataDumpArray
         .filter((row) => row)
-        .map((row) => {
-          const studentRow = row.split(',');
-          const student = {};
-          for (const [keyIdx, key] of keys.entries()) {
-            student[key] = studentRow[keyIdx];
-          }
-          return student;
-        });
+        .map((row) => row.split(','));
       studentArray.shift();
 
       studentArray.forEach((student) => {
-        if (!fields[student.field]) {
-          fields[student.field] = [];
+        if (!fields[student[3]]) {
+          fields[student[3]] = [];
         }
-        fields[student.field].push(student.firstname);
+        fields[student[3]].push(student[0]);
       });
 
       message.push(`Number of students: ${studentArray.length}`);
@@ -37,7 +29,7 @@ function countStudents(path) {
         message.push(
           `Number of students in ${fieldName}: ${
             fieldStudents.length
-          }. List: ${fieldStudents.join(', ')}`,
+          }. List: ${fieldStudents.join(', ')}`
         );
       }
 
