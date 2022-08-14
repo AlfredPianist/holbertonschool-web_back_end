@@ -29,13 +29,13 @@ function countStudents(path) {
         message.push(
           `Number of students in ${fieldName}: ${
             fieldStudents.length
-          }. List: ${fieldStudents.join(', ')}`
+          }. List: ${fieldStudents.join(', ')}`,
         );
       }
 
       const response = message.join('\n');
       console.log(response);
-      resolve(message);
+      resolve(response);
     });
   });
 }
