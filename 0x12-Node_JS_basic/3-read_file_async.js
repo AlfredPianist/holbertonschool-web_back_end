@@ -4,29 +4,41 @@ function countStudents(path) {
   return new Promise((resolve, reject) => {
     fs.readFile(path, 'utf8', (err, data) => {
       if (err) {
-        reject(new Error('Cannot load the database'));
+        reject(Error('Cannot load the database'));
         return;
       }
-      const fields = {};
-      const students = data.split('\n').map((student) => student.split(','));
-      students.shift();
-      const message = [];
 
-      message.push(`Number of students: ${students.length}`);
-      students.forEach((student) => {
-        if (!fields[student[3]]) fields[student[3]] = [];
-        fields[student[3]].push(student[0]);
-      });
-      Object.keys(fields).forEach((key) => {
-        message.push(
-          `Number of students in ${key}: ${fields[key].length}. List: ${fields[
-            key
-          ].join(', ')}`,
-        );
-      });
-      const result = message.join('\n');
-      console.log(result);
-      resolve(result);
+      let msg;
+      const response = [];
+      const content = data.toString().split('\n');
+      const fields = {};
+
+      const students = content
+        .filter((item) => item)
+        .map((item) => item.split(','));
+
+      const NUMBER_OF_STUDENTS = students.length ? students.length - 1 : 0;
+      msg = `Number of students: ${NUMBER_OF_STUDENTS}`;
+      console.log(msg);
+      response.push(msg);
+
+      for (const i in students) {
+        if (i !== 0) {
+          if (!fields[students[i][3]]) fields[students[i][3]] = [];
+          fields[students[i][3]].push(students[i][0]);
+        }
+      }
+      delete fields.field;
+
+      for (const key of Object.keys(fields)) {
+        msg = `Number of students in ${key}: ${
+          fields[key].length
+        }. List: ${fields[key].join(', ')}`;
+
+        console.log(msg);
+        response.push(msg);
+      }
+      resolve(response);
     });
   });
 }
