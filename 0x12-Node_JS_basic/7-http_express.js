@@ -11,7 +11,7 @@ app.get('/students', (request, response) => {
   responseArray.push('This is the list of our students');
   countStudents(database)
     .then((message) => {
-      responseArray.push(message);
+      responseArray.push(message.join('\n'));
       response.send(responseArray.join('\n'));
     })
     .catch((error) => {
