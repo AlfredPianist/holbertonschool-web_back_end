@@ -26,21 +26,18 @@ function countStudents(path) {
       studentArray.shift();
 
       studentArray.forEach((student) => {
-        if (typeof fields[student.field] === 'undefined') {
-          fields[student.field] = {};
-          fields[student.field].count = 0;
-          fields[student.field].studentList = [];
+        if (!fields[student.field]) {
+          fields[student.field] = [];
         }
-        fields[student.field].count += 1;
-        fields[student.field].studentList.push(student.firstname);
+        fields[student.field].push(student.firstname);
       });
 
       message.push(`Number of students: ${studentArray.length}`);
-      for (const [fieldName, fieldInfo] of Object.entries(fields)) {
+      for (const [fieldName, fieldStudents] of Object.entries(fields)) {
         message.push(
           `Number of students in ${fieldName}: ${
-            fieldInfo.count
-          }. List: ${fieldInfo.studentList.join(', ')}`,
+            fieldStudents.length
+          }. List: ${fieldStudents.join(', ')}`,
         );
       }
 
