@@ -44,7 +44,7 @@ function countStudents(path) {
 
       const response = message.join('\n');
       console.log(response);
-      resolve(studentArray);
+      resolve(message);
     });
   });
 }
