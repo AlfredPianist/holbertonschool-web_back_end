@@ -1,35 +1,29 @@
+import { readFile } from 'fs';
+
 function readDatabase(path) {
   return new Promise((resolve, reject) => {
-    fs.readFile(path, 'utf-8', (error, data) => {
-      if (error) {
-        reject(new Error('Cannot load the database'));
+    readFile(path, 'utf8', (err, data) => {
+      if (err) {
+        reject(Error('Cannot load the database'));
         return;
       }
-      const dataArray = data.split('\n');
-      const keys = dataArray[0].split(',');
-      const objectArray = [];
+
+      const content = data.toString().split('\n');
       const fieldsObject = {};
 
-      for (let lineIdx = 1; lineIdx < dataArray.length; lineIdx += 1) {
-        const row = dataArray[lineIdx].split(',');
-        if (row.length >= keys.length) {
-          const object = {};
-          for (let valueIdx = 0; valueIdx < keys.length; valueIdx += 1) {
-            object[keys[valueIdx]] = row[valueIdx];
-          }
-          objectArray.push(object);
-        }
-      }
+      const students = content
+        .filter((item) => item)
+        .map((item) => item.split(','));
+      students.shift();
 
-      objectArray.forEach((row) => {
-        if (typeof fieldsObject[row.field] === 'undefined') {
-          fieldsObject[row.field] = {};
-          fieldsObject[row.field].studentList = [];
-        }
-        fieldsObject[row.field].studentList.push(row.firstname);
-      });
+      for (const student of students) {
+        if (!fieldsObject[student[3]]) fieldsObject[student[3]] = [];
+        fieldsObject[student[3]].push(student[0]);
+      }
 
       resolve(fieldsObject);
     });
   });
 }
+
+export default readDatabase;
