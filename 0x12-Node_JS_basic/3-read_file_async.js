@@ -8,32 +8,30 @@ function countStudents(path) {
         return;
       }
 
-      let msg;
-      const response = [];
       const content = data.toString().split('\n');
       const fields = {};
+      const response = [];
+      let msg;
 
       const students = content
         .filter((item) => item)
         .map((item) => item.split(','));
+      students.shift();
 
-      const NUMBER_OF_STUDENTS = students.length ? students.length - 1 : 0;
+      const NUMBER_OF_STUDENTS = students.length ? students.length : 0;
       msg = `Number of students: ${NUMBER_OF_STUDENTS}`;
       console.log(msg);
       response.push(msg);
 
-      for (const i in students) {
-        if (i !== 0) {
-          if (!fields[students[i][3]]) fields[students[i][3]] = [];
-          fields[students[i][3]].push(students[i][0]);
-        }
+      for (const student of students) {
+        if (!fields[student[3]]) fields[student[3]] = [];
+        fields[student[3]].push(student[0]);
       }
-      delete fields.field;
 
-      for (const key of Object.keys(fields)) {
-        msg = `Number of students in ${key}: ${
-          fields[key].length
-        }. List: ${fields[key].join(', ')}`;
+      for (const field of Object.keys(fields)) {
+        msg = `Number of students in ${field}: ${
+          fields[field].length
+        }. List: ${fields[field].join(', ')}`;
 
         console.log(msg);
         response.push(msg);
