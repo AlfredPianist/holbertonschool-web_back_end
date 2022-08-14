@@ -2,9 +2,9 @@ import { readFile } from 'fs';
 
 function readDatabase(path) {
   return new Promise((resolve, reject) => {
-    readFile(path, 'utf8', (err, data) => {
-      if (err) {
-        reject(Error('Cannot load the database'));
+    readFile(path, 'utf8', (error, data) => {
+      if (error) {
+        reject(Error(error));
         return;
       }
 
