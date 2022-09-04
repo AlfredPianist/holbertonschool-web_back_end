@@ -7,7 +7,7 @@ const calculateNumber = (type, a, b) => {
     case 'SUBTRACT':
       return rounded_a - rounded_b;
     case 'DIVIDE':
-      if (b === 0) {
+      if (rounded_b === 0) {
         return 'Error';
       }
       return rounded_a / rounded_b;

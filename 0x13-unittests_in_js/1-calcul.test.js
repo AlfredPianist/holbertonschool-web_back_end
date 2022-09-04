@@ -33,5 +33,6 @@ describe('#calculateNumber(), type = DIVIDE', () => {
 
   it('outputs error when divisor is 0', () => {
     assert.strictEqual(calculateNumber('DIVIDE', 1, 0), 'Error');
+    assert.strictEqual(calculateNumber('DIVIDE', 10.7, 0.2), 'Error');
   });
 });
