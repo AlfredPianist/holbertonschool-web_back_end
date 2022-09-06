@@ -7,8 +7,8 @@ app.get('/', (request, response) =>
   response.end('Welcome to the payment system')
 );
 
-app.get('/cart/:id', (request, response) =>
-  response.end(`Payment method for cart ${id}`)
+app.get('/cart/:id([0-9]+)', (request, response) =>
+  response.end(`Payment methods for cart ${request.params.id}`)
 );
 
 app.listen(port, () => console.log(`API available on localhost port ${port}`));
